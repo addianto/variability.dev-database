@@ -1,9 +1,9 @@
-FROM python:3-alpine
+FROM docker.io/library/python:3.10-alpine
 ADD . /app
 COPY ./ddueruemweb/.env.production /app/ddueruemweb/.env
 
 RUN set -ex \
-  && apk add --no-cache --virtual .build-deps postgresql-dev build-base netcat-openbsd \
+  && apk add --no-cache --virtual .build-deps postgresql-dev libffi-dev build-base netcat-openbsd \
   && python -m venv /env \
   && /env/bin/pip install --upgrade pip \
   && /env/bin/pip install --no-cache-dir gunicorn \

@@ -1,4 +1,4 @@
-FROM node:lts-alpine as build-stage
+FROM docker.io/library/node:16-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
