@@ -18,6 +18,7 @@
         "d3": "^7.4.4",
         "d3-flextree": "^2.1.2",
         "d3-hierarchy": "^3.1.2",
+        "frontend": "file:",
         "js-levenshtein": "^1.1.6",
         "peerjs": "^1.4.7",
         "prettier": "^2.7.1",

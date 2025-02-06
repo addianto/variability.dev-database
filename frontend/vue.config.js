@@ -8,4 +8,5 @@ module.exports = {
 			navigateFallback: 'index.html',
 		},
 	},
+	lintOnSave: process.env.NODE_ENV !== 'production'
 }
