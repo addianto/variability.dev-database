@@ -95,14 +95,21 @@ class RegistrationViewSet(ModelViewSet):
     http_method_names = ["post"]
 
     def create(self, request, *args, **kwargs):
+        print("in create")
         serializer = self.get_serializer(data=request.data)
+        print("1")
         serializer.is_valid(raise_exception=True)
+        print("2")
         user = serializer.save()
+        print("3")
         refresh = RefreshToken.for_user(user)
+        print("4")
         res = {
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         }
+        
+        print("uwu")
 
         return Response(
             {
