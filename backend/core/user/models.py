@@ -115,6 +115,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         })
         plain_message = strip_tags(html_message)
         user._email_user("DDueruem Account Activation", plain_message, html_message=html_message)
+        print("send email activation")
 
     def _email_user(self, subject, message, from_email="noreply@uni-ulm.de", **kwargs):
         """
@@ -126,6 +127,14 @@ class User(AbstractBaseUser, PermissionsMixin):
             html_message = message
         email_sender = EmailSendTask(subject=subject, message=message, from_email=from_email, recipient=self.email, html_message=html_message, attempts=5, repeat=60)
         email_sender.save()
+        send_mail(
+            subject, 
+            message, 
+            from_email, 
+            [self.email], 
+            html_message=html_message
+        )
+        print("email user")
 
     def __str__(self):
         return f"{self.email}"

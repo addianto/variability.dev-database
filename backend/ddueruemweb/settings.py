@@ -25,8 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env('SECRET_KEY') # TODO: GANTI WOI
-SECRET_KEY = "your-very-secret-key"
+SECRET_KEY = env('SECRET_KEY') # TODO: GANTI WOI
+# SECRET_KEY = env()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -82,7 +82,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             # TODO: BENERIN ENV
-            # 'debug': env('TEMPLATE_DEBUG'),
+            'debug': env('TEMPLATE_DEBUG'),
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -101,8 +101,7 @@ WSGI_APPLICATION = 'ddueruemweb.wsgi.application'
 DATABASES = {}
 
 # TODO: BENERIN ENV
-# if env('USE_POSTGRES') != 'True':
-if 'False' != 'True':
+if env('USE_POSTGRES') != 'True':
     DATABASES = {
         # Should be in the environment as well
         'default': {
@@ -192,15 +191,15 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # https://docs.djangoproject.com/en/3.2/topics/email/
 # TODO: Benerin ENV
-# EMAIL_HOST = env('EMAIL_HOST')  # define host and port for email backend
-# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-# EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST = env('EMAIL_HOST')  # define host and port for email backend
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env('EMAIL_PORT')
 
-EMAIL_HOST="smtp.mailtrap.io"
-EMAIL_HOST_USER="a"
-EMAIL_HOST_PASSWORD="a"
-EMAIL_PORT=2525
+# EMAIL_HOST="smtp.mailtrap.io"
+# EMAIL_HOST_USER="a"
+# EMAIL_HOST_PASSWORD="a"
+# EMAIL_PORT=2525
 # EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 
@@ -220,17 +219,17 @@ LOGGING = {
 }
 
 #TODO: BENERIN ENV
-# SECURE_SSL_REDIRECT = env("USE_SSL") == True
-# SECURE_PROXY_SSL_HEADER = None
-
-# if env("USE_SSL"):
-#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = env("USE_SSL") == True
 SECURE_PROXY_SSL_HEADER = None
 
-if False:
+if env("USE_SSL"):
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# SECURE_SSL_REDIRECT = False
+# SECURE_PROXY_SSL_HEADER = None
+
+# if False:
+#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 GITHUB_AUTH = True
 

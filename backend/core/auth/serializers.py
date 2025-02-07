@@ -66,6 +66,7 @@ class RegistrationSerializer(UserSerializer):
             try:
                 user = User.objects.get(email=validated_data['email'])
             except ObjectDoesNotExist:
+                print("otw send email2")
                 user = User.objects.create_user(**validated_data)
                 user.send_activation_link()
                 return user
