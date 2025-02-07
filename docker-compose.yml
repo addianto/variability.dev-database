@@ -58,7 +58,8 @@ services:
       - ./backend:/app
       - djangomedia:/api/media
       - /var/run/docker.sock:/var/run/docker.sock
-    command: ./entrypoint.sh
+    command: sh entrypoint.sh
+    # command: ls
     depends_on:
       - db
     # labels:

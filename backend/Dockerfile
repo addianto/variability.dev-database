@@ -31,4 +31,7 @@ WORKDIR /app
 
 RUN python3 ./manage.py collectstatic --no-input
 
-CMD ["sh", "./entrypoint.sh"]
+COPY ./entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+RUN ls -la .
+CMD ["sh", "/app/entrypoint.sh", "ls"]
