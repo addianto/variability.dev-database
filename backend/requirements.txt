@@ -39,3 +39,4 @@ toposort==1.10
 urllib3==2.0.3
 websocket-client==1.6.0
 wrapt==1.15.0
+setuptools==68.0.0
