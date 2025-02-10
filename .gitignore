@@ -709,3 +709,4 @@ backend/.coverage
 backend/.coverage.*
 backend/coverage.xml
 backend/*.cover
+backend/env/
