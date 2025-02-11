@@ -62,11 +62,11 @@ services:
       # - "traefik.http.middlewares.redirector.redirectscheme.permanent=true"
 
   backend:
-    build: ./backend
+    # build: ./backend
+    image: cybersleeper/variability-dev-backend-image:latest
     privileged: true
     restart: unless-stopped
     volumes:
-      - ./backend:/app
       - djangomedia:/api/media
       - /var/run/docker.sock:/var/run/docker.sock
     command: sh entrypoint.sh
@@ -82,7 +82,8 @@ services:
     #   - "traefik.http.middlewares.redirector.redirectscheme.permanent=true"
 
   frontend:
-    build: ./frontend
+    # build: ./frontend
+    image: cybersleeper/variability-dev-frontend-image:latest
     restart: unless-stopped
     depends_on:
       - backend
