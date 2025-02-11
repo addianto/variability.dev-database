@@ -32,6 +32,9 @@ WORKDIR /app
 RUN python3 ./manage.py collectstatic --no-input
 
 COPY ./entrypoint.sh /app/entrypoint.sh
+COPY ./core/auth/.env /app/core/auth/.env
+COPY ./ddueruemweb/.env /app/ddueruemweb/.env
 RUN chmod +x /app/entrypoint.sh
+RUN sed -i 's/\r$//' /app/entrypoint.sh
 RUN ls -la .
 CMD ["sh", "/app/entrypoint.sh", "ls"]
