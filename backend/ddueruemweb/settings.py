@@ -190,7 +190,6 @@ ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 
 # https://docs.djangoproject.com/en/3.2/topics/email/
-# TODO: Benerin ENV
 EMAIL_HOST = env('EMAIL_HOST')  # define host and port for email backend
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
@@ -218,7 +217,6 @@ LOGGING = {
     'disable_existing_loggers': False,  # retain the default loggers
 }
 
-#TODO: BENERIN ENV
 SECURE_SSL_REDIRECT = env("USE_SSL") == True
 SECURE_PROXY_SSL_HEADER = None
 

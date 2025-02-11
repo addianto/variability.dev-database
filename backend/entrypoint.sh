@@ -6,4 +6,3 @@ python manage.py makemigrations
 # python manage.py migrate --run-syncdb
 python manage.py migrate
 gunicorn --bind ":8000" --workers 3 ddueruemweb.wsgi:application
-
