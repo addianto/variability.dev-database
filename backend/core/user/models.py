@@ -117,7 +117,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         user._email_user("DDueruem Account Activation", plain_message, html_message=html_message)
         print("send email activation")
 
-    def _email_user(self, subject, message, from_email="noreply@uni-ulm.de", **kwargs):
+    def _email_user(self, subject, message, from_email="noreply@variability.backtruck.art", **kwargs):
         """
         Sends an email to this user asynchronously
         """

@@ -194,12 +194,7 @@ EMAIL_HOST = env('EMAIL_HOST')  # define host and port for email backend
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = env('EMAIL_PORT')
-
-# EMAIL_HOST="smtp.mailtrap.io"
-# EMAIL_HOST_USER="a"
-# EMAIL_HOST_PASSWORD="a"
-# EMAIL_PORT=2525
-# EMAIL_USE_TLS = True
+EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 
 # also used for user email activation (token) timeout and file confirmed time calculation
