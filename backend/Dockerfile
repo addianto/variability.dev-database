@@ -1,11 +1,17 @@
 FROM python:3.11-alpine
-ADD . /app
+WORKDIR /app
+COPY . .
 # COPY ./ddueruemweb/.env.production /app/ddueruemweb/.env
-COPY ./ddueruemweb/.env /app/ddueruemweb/.env
-COPY . /app/
+COPY ./ddueruemweb/.env ./ddueruemweb/.env
+COPY . .
 
+SHELL ["/bin/sh", "-o", "pipefail", "-c"]
 RUN set -ex \
-  && apk add --no-cache --virtual .build-deps postgresql-dev build-base netcat-openbsd libffi-dev\
+  && apk add --no-cache --virtual .build-deps \
+  postgresql-dev \
+  build-base \
+  netcat-openbsd \
+  libffi-dev \
   && python -m venv /env \
   && /env/bin/pip install --upgrade pip \
   && /env/bin/pip install --no-cache-dir gunicorn \
@@ -17,7 +23,6 @@ RUN set -ex \
   | sort -u)" \
   && apk add --virtual rundeps $runDeps \
   && apk del .build-deps
-WORKDIR /app
 
 ENV VIRTUAL_ENV /env
 ENV PATH /env/bin:$PATH
@@ -25,8 +30,5 @@ ENV PORT=8000
 
 EXPOSE 8000
 
-RUN python3 ./manage.py collectstatic --no-input
-
-RUN chmod +x /app/entrypoint.sh
-RUN ls -la .
+RUN python3 ./manage.py collectstatic --no-input && chmod +x /app/entrypoint.sh
 CMD ["sh", "/app/entrypoint.sh", "ls"]
