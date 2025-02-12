@@ -1,7 +1,6 @@
 FROM python:3.11-alpine
 WORKDIR /app
 COPY . .
-# COPY ./ddueruemweb/.env.production /app/ddueruemweb/.env
 COPY ./ddueruemweb/.env ./ddueruemweb/.env
 COPY . .
 
@@ -30,5 +29,10 @@ ENV PORT=8000
 
 EXPOSE 8000
 
-RUN python3 ./manage.py collectstatic --no-input && chmod +x /app/entrypoint.sh
+COPY ./entrypoint.sh /app/entrypoint.sh
+# COPY ./core/auth/.env /app/core/auth/.env
+# COPY ./ddueruemweb/.env /app/ddueruemweb/.env
+COPY ./manage.py /app/manage.py
+
+RUN python3 ./manage.py collectstatic --no-input && chmod +x /app/entrypoint.sh && sed -i 's/\r$//' /app/entrypoint.sh && ls -la .
 CMD ["sh", "/app/entrypoint.sh", "ls"]
