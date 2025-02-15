@@ -6,7 +6,7 @@ from django.utils.html import strip_tags
 from django.utils.timezone import now
 
 from core.auth.tokens import encode_user_to_token
-from ddueruemweb.settings import env
+import os
 
 from datetime import datetime, timedelta
 
@@ -89,12 +89,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         user = self
         html_message = render_to_string('email/user_upload_email.html', {
             'user': str(user.email),
-            'confirm_link': f"{env('FRONTEND_URL')}/files/uploaded/unconfirmed/confirm/{confirmation_token}",
-            'delete_link': f"{env('FRONTEND_URL')}/files/uploaded/unconfirmed/delete/{confirmation_token}",
+            'confirm_link': f"{os.getenv('FRONTEND_URL')}/files/uploaded/unconfirmed/confirm/{confirmation_token}",
+            'delete_link': f"{os.getenv('FRONTEND_URL')}/files/uploaded/unconfirmed/delete/{confirmation_token}",
         })
         plain_message = strip_tags(html_message)
 
-        user._email_user('DDueruem File Upload', plain_message, html_message=html_message)
+        # user._email_user('DDueruem File Upload', plain_message, html_message=html_message)
 
     def send_activation_link(self):
         """
@@ -108,7 +108,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             'timestamp': str(now()),
             'purpose': 'user_activation'
         }
-        link = f"{env('FRONTEND_URL')}/register/{encode_user_to_token(extended_user)}"
+        link = f"{os.getenv('FRONTEND_URL')}/register/{encode_user_to_token(extended_user)}"
         html_message = render_to_string('email/user_activation_email.html', {
             'user': str(user.email),
             'link': link

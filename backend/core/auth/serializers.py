@@ -1,4 +1,3 @@
-import environ
 from django.contrib.auth.models import update_last_login
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
@@ -6,10 +5,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
 from core.user.models import User
 from core.user.serializers import UserSerializer
-
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env()
-
 
 class LoginSerializer(TokenObtainPairSerializer):
     """

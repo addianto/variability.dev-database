@@ -11,12 +11,14 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import logging
 import os
-import environ
+import dotenv
 
 from pathlib import Path
 
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env()
+# env = environ.Env(DEBUG=(bool, False))
+# environ.Env.read_env()
+
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,11 +27,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY') # TODO: GANTI WOI
+SECRET_KEY = os.getenv('SECRET_KEY', "****")
+print("AAAAAAAAA",SECRET_KEY)
+if not SECRET_KEY:
+    SECRET_KEY = "****"
+print("AAAAAAAAA",SECRET_KEY)
+
 # SECRET_KEY = env()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.getenv('DEBUG', True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -52,7 +59,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'django_seed',
-
     'rest_framework.authtoken',
     'dj_rest_auth',
     'dj_rest_auth.registration',
@@ -81,8 +87,7 @@ TEMPLATES = [
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
-            # TODO: BENERIN ENV
-            'debug': env('TEMPLATE_DEBUG'),
+            'debug': os.getenv('TEMPLATE_DEBUG', True),
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -100,8 +105,7 @@ WSGI_APPLICATION = 'ddueruemweb.wsgi.application'
 
 DATABASES = {}
 
-# TODO: BENERIN ENV
-if env('USE_POSTGRES') != 'True':
+if os.getenv('USE_POSTGRES', False) != 'True':
     DATABASES = {
         # Should be in the environment as well
         'default': {
@@ -113,11 +117,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': env('DB_NAME'),
-            'USER': env('DB_USER'),
-            'PASSWORD': env('DB_PASSWORD'),
-            'HOST': env('DB_HOST'),
-            'PORT': env('DB_PORT'),
+            'NAME': os.getenv('DB_NAME','ddueruem'),
+            'USER': os.getenv('DB_USER','ddueruem'),
+            'PASSWORD': os.getenv('DB_PASSWORD','***'),
+            'HOST': os.getenv('DB_HOST','ddueruem'),
+            'PORT': os.getenv('DB_PORT','5432'),
         }
     }
 
@@ -190,10 +194,10 @@ ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 
 # https://docs.djangoproject.com/en/3.2/topics/email/
-EMAIL_HOST = env('EMAIL_HOST')  # define host and port for email backend
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST = os.getenv('EMAIL_HOST','mail')  # define host and port for email backend
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER','mail')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD','***')
+EMAIL_PORT = os.getenv('EMAIL_PORT','2525')
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 
@@ -212,10 +216,10 @@ LOGGING = {
     'disable_existing_loggers': False,  # retain the default loggers
 }
 
-SECURE_SSL_REDIRECT = env("USE_SSL") == True
+SECURE_SSL_REDIRECT = os.getenv("USE_SSL",False) == True
 SECURE_PROXY_SSL_HEADER = None
 
-if env("USE_SSL"):
+if os.getenv("USE_SSL", False):
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # SECURE_SSL_REDIRECT = False

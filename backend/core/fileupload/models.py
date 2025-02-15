@@ -157,6 +157,11 @@ class File(models.Model):
     is_confirmed = models.BooleanField(
         default=False
     )  # indicates if the user confirmed the upload
+    
+    is_confirmed = models.BooleanField(
+        default=True
+    )
+    
     slug = models.SlugField(null=True)
     confirmation_token = models.CharField(default="", max_length=255)
 

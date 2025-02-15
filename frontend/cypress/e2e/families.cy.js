@@ -29,7 +29,7 @@ describe('Families page tests', () => {
             })
             cy.intercept('GET', 'families/').as('getFamilies');
             cy.intercept('POST', 'families/').as('postFamilies');
-            cy.visit('localhost:8080/families');
+            cy.visit(`${API_URL}/families`);
         })
 
         afterEach(() => {

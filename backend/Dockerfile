@@ -1,10 +1,37 @@
 FROM python:3.11-alpine
 WORKDIR /app
 COPY . .
-COPY ./ddueruemweb/.env ./ddueruemweb/.env
-COPY . .
 
-SHELL ["/bin/sh", "-o", "pipefail", "-c"]
+ARG DB_HOST
+ARG DB_USER
+ARG DB_PASS
+ARG SECRET_KEY
+ARG DEBUG
+ARG USE_POSTGRES
+ARG USE_SSL
+ARG TEMPLATE_DEBUG
+ARG EMAIL_HOST
+ARG EMAIL_HOST_USER
+ARG EMAIL_HOST_PASSWORD
+ARG EMAIL_PORT
+ARG FRONTEND_URL
+ARG GITHUB_TOKEN
+
+ENV DB_HOST=${DB_HOST}
+ENV DB_USER=${DB_USER}
+ENV DB_PASS=${DB_PASS}
+ENV SECRET_KEY=${SECRET_KEY}
+ENV DEBUG=${DEBUG}
+ENV USE_POSTGRES=${USE_POSTGRES}
+ENV USE_SSL=${USE_SSL}
+ENV TEMPLATE_DEBUG=${TEMPLATE_DEBUG}
+ENV EMAIL_HOST=${EMAIL_HOST}
+ENV EMAIL_HOST_USER=${EMAIL_HOST_USER}
+ENV EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+ENV EMAIL_PORT=${EMAIL_PORT}
+ENV FRONTEND_URL=${FRONTEND_URL}
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+
 RUN set -ex \
   && apk add --no-cache --virtual .build-deps \
   postgresql-dev \
@@ -29,10 +56,8 @@ ENV PORT=8000
 
 EXPOSE 8000
 
-COPY ./entrypoint.sh /app/entrypoint.sh
-# COPY ./core/auth/.env /app/core/auth/.env
-# COPY ./ddueruemweb/.env /app/ddueruemweb/.env
-COPY ./manage.py /app/manage.py
+RUN python3 manage.py collectstatic --no-input && \
+  chmod +x entrypoint.sh && \
+  sed -i 's/\r$//' /app/entrypoint.sh
 
-RUN python3 ./manage.py collectstatic --no-input && chmod +x /app/entrypoint.sh && sed -i 's/\r$//' /app/entrypoint.sh && ls -la .
-CMD ["sh", "/app/entrypoint.sh", "ls"]
+ENTRYPOINT [ "./entrypoint.sh" ]

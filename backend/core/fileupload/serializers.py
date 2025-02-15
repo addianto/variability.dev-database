@@ -83,6 +83,8 @@ class FilesSerializer(serializers.ModelSerializer):
         transpiled = json.dumps(xml_to_g6(contents, is_file_path=False), indent=2)
         file.transpiled_file = ContentFile(bytes(transpiled, encoding='utf8'), f"{generate_random_string(20)}.json")
         file.local_file = ContentFile(bytes(contents, encoding='utf8'), f"{generate_random_string(20)}.xml")
+        # HAPUS SETELAH MAILTRAP FUNCTIONING
+        file.is_confirmed = True
         file.save()
         return file
 

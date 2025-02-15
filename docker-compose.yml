@@ -1,33 +1,18 @@
 version: "3"
 
 services:
-
-  # reverse-proxy:
-  #   # The official v2 Traefik docker image
-  #   image: traefik:v2.6
-  #   # Enables the web UI and tells Traefik to listen to docker
-  #   command:
-  #     - "--log.level=DEBUG"
-  #     - "--api.insecure=true"
-  #     - "--providers.docker=true"
-  #     - "--providers.docker.exposedbydefault=false"
-  #     - "--entrypoints.websecure.address=:443"
-  #     - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-  #     #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-  #     - "--certificatesresolvers.myresolver.acme.email=tobias.hess@uni-ulm.com"
-  #     - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-  #   labels:
-  #     - traefik.http.routers.to-https.rule=HostRegexp(`{host:.+}`)
-  #     - traefik.http.routers.to-https.entrypoints=http
-  #     - traefik.http.routers.to-https.middlewares=to-https
-  #   ports:
-  #     - "443:443"
-  #     # The Web UI (enabled by --api.insecure=true)
-  #     - "8080:8080"
-  #   volumes:
-  #     # So that Traefik can listen to the Docker events
-  #     - "./letsencrypt:/letsencrypt"
-  #     - /var/run/docker.sock:/var/run/docker.sock
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        - VUE_APP_DOMAIN=http://localhost/api/
+    env_file:
+      - .env
+    volumes:
+      - ./frontend/dist:/frontend/dist
+    depends_on:
+      - backend
+    
 
   nginx:
     image: nginx
@@ -41,66 +26,30 @@ services:
       - "80:80"
 
   db:
-    image: postgres
+    image: postgres:13.3
     restart: unless-stopped
     environment:
       POSTGRES_USER: ddueruem
       POSTGRES_PASSWORD: ddueruem
       POSTGRES_DB: ddueruem
     volumes:
-      - postgresdata:/var/lib/postgresql
-
-  peerjs:
-    image: peerjs/peerjs-server    
-    restart: unless-stopped
-    # labels:
-      # - "traefik.enable=true"
-      # - "traefik.http.routers.peerjs.rule=Host(`boerek.tobiasbetz.de`)"
-      # - "traefik.http.routers.peerjs.entrypoints=websecure"
-      # - "traefik.http.routers.peerjs.tls.certresolver=myresolver"
-      # - "traefik.http.middlewares.redirector.redirectscheme.scheme=https"
-      # - "traefik.http.middlewares.redirector.redirectscheme.permanent=true"
+      - postgresdata:/var/lib/postgresql/data
 
   backend:
-    # build: ./backend
-    image: cybersleeper/variability-dev-backend-image:latest
-    privileged: true
+    build: ./backend
+    env_file:
+      - .env
     restart: unless-stopped
     volumes:
+      - ./backend:/app
       - djangomedia:/api/media
-      - /var/run/docker.sock:/var/run/docker.sock
     command: sh entrypoint.sh
-    # command: ls
     depends_on:
       - db
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.backend.rule=Host(`localhost`) && PathPrefix(`/api`)"
-    #   - "traefik.http.routers.backend.entrypoints=websecure"
-    #   - "traefik.http.routers.backend.tls.certresolver=myresolver"
-    #   - "traefik.http.middlewares.redirector.redirectscheme.scheme=https"
-    #   - "traefik.http.middlewares.redirector.redirectscheme.permanent=true"
-
-  frontend:
-    # build: ./frontend
-    image: cybersleeper/variability-dev-frontend-image:latest
-    restart: unless-stopped
-    depends_on:
-      - backend
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.frontend.rule=Host(`localhost`)"
-    #   - "traefik.http.routers.frontend.entrypoints=websecure"
-    #   - "traefik.http.routers.frontend.tls.certresolver=myresolver"
-    #   - "traefik.http.middlewares.redirector.redirectscheme.scheme=https"
-    #   - "traefik.http.middlewares.redirector.redirectscheme.permanent=true"
-    # env_file:
-    #   - ./frontend.env
-    # environment:
-    #   - VUE_APP_DOMAIN="http://localhost:8000/"
-    #   - VUE_APP_DOMAIN_FRONTEND="http://localhost:8080/"
-    #   - VUE_APP_DOMAIN_WEBSOCKET="localhost"
-    #   - VUE_APP_DOMAIN_WEBSOCKET_PORT=9000
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
 
 volumes:
   postgresdata:

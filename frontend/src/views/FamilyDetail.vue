@@ -302,11 +302,11 @@ export default Vue.extend({
                     let data = [];
                     let dataConstraints = [];
                     let dataConfigurations = [];
-                    for (let i = 0; i < sorted.length; i++) {
-                        const elem = sorted[i];
+                    for (const element of sorted) {
+                        const elem = element;
                         const res = await this.getNumbersFromFile(
                             elem.local_file,
-                            sorted[i].label
+                            element.label
                         );
                         data.push(res.amountFeatures);
                         dataConstraints.push(res.amountConstraints);
@@ -342,25 +342,25 @@ export default Vue.extend({
                 });
         },
         async getNumbersFromFile(path, label) {
-            return await api
-                .get(`${API_URL.slice(0, -1)}${path}`)
-                .then((response) => {
-                    const parser = new DOMParser();
-                    const xmlDocument = parser.parseFromString(
-                        response.data,
-                        'text/xml'
-                    );
-                    let result = {
-                        amountFeatures:
-                            xmlDocument.getElementsByTagName('feature').length,
-                        amountConstraints:
-                            xmlDocument.getElementsByTagName('rule').length,
-                        amountConfigurations: Math.log10(
-                            busyBoxConfigs.find(({ name }) => name === label).mc
-                        ),
-                    };
-                    return result;
-                });
+        return await api
+            .get(`${API_URL.slice(0, -1)}${path}`)
+            .then((response) => {
+                const parser = new DOMParser();
+                const xmlDocument = parser.parseFromString(
+                    response.data,
+                    'text/xml'
+                );
+
+                let result = {
+                    amountFeatures:
+                        xmlDocument.getElementsByTagName('feature').length,
+                    amountConstraints:
+                        xmlDocument.getElementsByTagName('rule').length,
+                    // Removed amountConfigurations calculation
+                };
+
+                return result;
+            });
         },
         onElementHover(elem) {
             if (elem !== undefined) {

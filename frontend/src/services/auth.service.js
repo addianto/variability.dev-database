@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const API_URL = `${process.env.VUE_APP_DOMAIN}auth/`
-
+const API_URL = process.env.VUE_APP_DOMAIN+`auth/`
+console.log(`ZCZCZC ${process.env.VUE_APP_DOMAIN}`)
 class AuthService {
 	login(email, password) {
 		return axios
