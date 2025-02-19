@@ -22,7 +22,7 @@ instance.interceptors.request.use(
 		}
 
 		// Sorry, we could not find the root cause or any way to make the API work with http, so we have to change it to https forcefully
-		changeConfig.url = changeConfig.url.replace(/^http:\/\//i, 'https://')
+		// changeConfig.url = changeConfig.url.replace(/^http:\/\//i, 'https://')
 
 		return changeConfig
 	},
