@@ -21,6 +21,9 @@ instance.interceptors.request.use(
 			changeConfig.headers.Authorization = `Bearer ${token}`
 		}
 
+		// Sorry, we could not find the root cause or any way to make the API work with http, so we have to change it to https forcefully
+		changeConfig.url = changeConfig.url.replace(/^http:\/\//i, 'https://')
+
 		return changeConfig
 	},
 	// In case there is an error just pipe it through to the appropriate handler
