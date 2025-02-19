@@ -283,7 +283,7 @@ export default Vue.extend({
         initData() {
             api.get(`${process.env.VUE_APP_DOMAIN}files/${this.id}/`).then(
                 (data) => {
-                    api.get(`${process.env.VUE_APP_DOMAIN}${data.data.local_file}`).then((rawData) => {
+                    api.get(data.data.local_file).then((rawData) => {
                         const xml = beautify(rawData.data);
                         xmlTranspiler.xmlToJson(xml, this.data);
                         this.xml = xml;
