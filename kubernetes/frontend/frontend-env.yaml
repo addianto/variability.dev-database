@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-env
+  labels:
+    app: frontend
+data:
+  VUE_APP_DOMAIN: "`/api/`"
+  VUE_APP_DOMAIN_FRONTEND: "/api/"
+  VUE_APP_DOMAIN_WEBSOCKET: backend-service
+  VUE_APP_DOMAIN_WEBSOCKET_PORT: "9000"

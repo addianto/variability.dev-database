@@ -8,7 +8,7 @@ do
     echo "Before replacement:"
     grep -o "process.env.VUE_APP_DOMAIN" "$file"
 
-    sed -i 's|process\.env\.VUE_APP_DOMAIN|'${VUE_APP_DOMAIN}'|g' $file
+    sed -i 's|process\.env\.VUE_APP_DOMAIN|'test\"${VUE_APP_DOMAIN}\"'|g' $file
     echo $VUE_APP_DOMAIN
     echo "After replacement:"
     grep -o "process.env.VUE_APP_DOMAIN" "$file"

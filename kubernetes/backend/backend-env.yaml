@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-env
+  labels:
+    app: backend
+data:
+  SECRET_KEY: developmentkey1
+  DEBUG: "True"
+  USE_POSTGRES: "True"
+  USE_SSL: "False"
+  TEMPLATE_DEBUG: "True"
+  EMAIL_HOST: sandbox.smtp.mailtrap.io
+  EMAIL_HOST_USER: p
+  EMAIL_HOST_PASSWORD: p
+  EMAIL_PORT: "2525"
+  DB_NAME: ddueruem
+  DB_USER: ddueruem
+  DB_PASSWORD: ddueruem
+  DB_HOST: db
+  DB_PORT: "5432"
+  FRONTEND_URL: frontend-service:8080
+  GITHUB_TOKEN: bla
+  postgre-url: postgres
+
