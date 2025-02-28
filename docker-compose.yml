@@ -6,10 +6,11 @@ services:
       context: ./frontend
       args:
         - VUE_APP_DOMAIN=http://localhost/api/
+        - VUE_APP_DOMAIN_FRONTEND="https://variability.amanah-staging.cs.ui.ac.id/api/"
+        - VUE_APP_DOMAIN_WEBSOCKET="variability.amanah-staging.cs.ui.ac.id"
+        - VUE_APP_DOMAIN_WEBSOCKET_PORT=9000
     env_file:
       - .env
-    volumes:
-      - ./frontend/dist:/frontend/dist
     depends_on:
       - backend
     
@@ -19,7 +20,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend/dist:/usr/share/nginx/html
     depends_on:
       - backend
     ports:
