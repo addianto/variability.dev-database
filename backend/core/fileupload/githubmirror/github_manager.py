@@ -12,7 +12,9 @@ from core.user.models import User
 logger = logging.getLogger(__name__)
 init_repo_name = 'wurstbroteater/djangoProject'
 init_branch = 'main'
-token = os.getenv('GITHUB_TOKEN')
+token = os.getenv('GITHUB_TOKEN', 'bla')
+if not token:
+    token = 'bla'
 
 g = Github(login_or_token = token)
 
