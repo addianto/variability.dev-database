@@ -4,7 +4,7 @@ ROOT_DIR=/usr/share/nginx/html
 
 echo "Replacing env constants in JS"
 for file in $ROOT_DIR/js/app.*.js* $ROOT_DIR/index.html ;
-do 
+do
 	echo "Before replacement: "
 	grep -o "process.env.VUE_APP_DOMAIN" "$file"
 
@@ -16,4 +16,3 @@ do
 done
 
 exec nginx -g "daemon off;"
-
